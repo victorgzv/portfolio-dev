@@ -1,0 +1,6 @@
+{
+    "CodeGPT.apiKey": "CodeGPT Plus Beta",
+    "CodeGPT.Autocomplete.provider": "CodeGPT Plus - Plus",
+    "CodeGPT.Autocomplete.enabled": true,
+    "CodeGPT.Autocomplete.suggestionDelay": 1000
+}

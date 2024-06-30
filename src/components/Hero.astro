@@ -1,0 +1,46 @@
+---
+import Badge from "@/components/Badge.astro";
+import LinkedInIcon from "@/components/icons/LinkedIn.astro";
+import MailIcon from "@/components/icons/Mail.astro";
+import SocialPill from "@/components/SocialPill.astro";
+---
+
+<div class="max-w-xl">
+  <div class="flex gap-4 mb-4">
+    <img
+      class="rounded-full shadow-lg size-16"
+      src="/victorgonzalez.webp"
+      alt="Victor Gonzalez"
+    />
+    <a
+      href="https://www.linkedin.com/in/victorgonzalezv/"
+      target="_blank"
+      rel="noopener"
+      class="flex items-center transition md:justify-center md:hover:scale-105"
+    >
+      <Badge>Open to work</Badge>
+    </a>
+  </div>
+  <h1
+    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+  >
+    Hey, I'm Victor
+  </h1>
+  <p
+    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-400 [&>strong]:text-yellow-400 [&>strong]:font-semibold dark:text-gray-300"
+  >
+    With over 5 years of experience, I am a <strong>Software Engineer</strong> from
+    Spain 🇪🇸, now residing in Ireland 🇮🇪 for more than a decade. I specialise in
+    delivering distinctive and innovative web application solutions.
+  </p>
+  <nav class="flex flex-wrap gap-4 mt-8">
+    <SocialPill href="mailto:victorgonvilla@gmail.com">
+      <MailIcon class="size-4" />
+      Contact me
+    </SocialPill>
+    <SocialPill href="https://www.linkedin.com/in/victorgonzalezv/">
+      <LinkedInIcon class="size-4" />
+      LinkedIn
+    </SocialPill>
+  </nav>
+</div>

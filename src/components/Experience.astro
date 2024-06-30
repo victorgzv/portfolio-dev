@@ -1,0 +1,43 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+const EXPERIENCIE = [
+  {
+    date: "Sep 2021 - Present",
+    title: "Software Engineer II",
+    company: "Rapid7",
+    description:
+      "I focus on implementing high-quality features, ensuring they adhere to usability and performance standards. I work hand-in-hand with designers to craft intuitive interfaces and graph visualisations using React and Highcharts JS, while also contributing to back-end solutions written in Java and Python. We leverage AWS for our cloud infrastructure to deliver scalable and reliable services. Throughout sprint cycles, I provide regular progress updates and engage in code reviews to uphold high coding standards. Additionally, I collaborate with junior team members, sharing insights and encouraging their growth within the team.",
+  },
+  {
+    date: "Jan 2020 - Sep 2021",
+    title: "Senior Technology Analyst",
+    company: "BearingPoint",
+    description:
+      "I contributed to the design and development of a microservice-oriented application using Angular and Java Spring Boot while following Agile practices. Additionally, I played a pivotal role in another project, focusing on implementing extensive unit and integration tests for a .NET application during its migration from a monolithic architecture.",
+  },
+  {
+    date: "Jan 2018 - Aug 2018",
+    title: "Junior Web Developer Intern",
+    company: "SAP Ireland",
+    description:
+      "During my internship, I learned to design and develop web applications using the SAPUI5 SDK and ABAP, the in-house language of SAP. I gained experience in identifying and resolving code vulnerabilities.",
+  },
+  {
+    date: "Feb 2015 - Aug 2015",
+    title: "Web Development Apprentice",
+    company: "BPM Marketing",
+    description:
+      "I designed, developed, and maintained the company's WordPress website. I also worked on a Python script using libraries for web scraping tasks, enhancing my skills in web development and scripting.",
+  },
+];
+---
+
+<ol class="relative mt-16">
+  {
+    EXPERIENCIE.map((experiencie) => (
+      <li class="">
+        <ExperienceItem {...experiencie} />
+      </li>
+    ))
+  }
+</ol>

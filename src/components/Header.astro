@@ -1,0 +1,61 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+const navItems = [
+  {
+    title: "Experience",
+    label: "experience",
+    url: "/#experience",
+  },
+  {
+    title: "Projects",
+    label: "projects",
+    url: "/#projects",
+  },
+  {
+    title: "About me",
+    label: "about-me",
+    url: "/#about-me",
+  },
+  {
+    title: "Contact",
+    label: "contact",
+    url: "mailto:victorgonvilla@gmail.com",
+  },
+];
+---
+
+<header
+  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+>
+  <nav
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+  >
+    {
+      navItems.map((link) => (
+        <a
+          class="relative block px-2 py-2 transition  hover:text-gray-800 dark:hover:text-yellow-400"
+          aria-label={link.label}
+          href={link.url}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+    <ThemeToggle />
+  </nav>
+</header>
+
+<style>
+  nav {
+    animation: nav-shadown 1s linear both;
+    animation-timeline: scroll();
+    animation-range: 0 100px;
+  }
+
+  @keyframes nav-shadown {
+    to {
+      @apply shadow-lg ring-1 backdrop-blur dark:bg-gray-800/90 bg-white/50 ring-white/10 text-gray-600;
+    }
+  }
+</style>
