@@ -7,6 +7,7 @@ import NodeJS from "./icons/NodeJS.astro";
 import Tensorflow from "./icons/Tensorflow.astro";
 import Android from "./icons/Android.astro";
 import Java from "./icons/Java.astro";
+import Carousel from "./Carousel.astro";
 
 const TAGS = {
   REACT: {
@@ -38,77 +39,84 @@ const TAGS = {
 const PROJECTS = [
   {
     title: "Sketch ML: A mobile prototyping tool using Machine Learning",
+    project: "sketchml",
     description:
       "An award-winning Final Year Project at my college's Project Fair. A mobile application powered by an AI model trained from scratch to identify multiple hand drawn user interface elements such as buttons, text inputs and images. Convert your paper sketches into digital prototypes automatically!",
     link: "https://www.youtube.com/watch?v=cl_jWwF0LNk",
     github: "https://github.com/victorgzv/SketchML",
-    image: "/projects/sketchml.webp",
+    images: ["sketchml1", "sketchml2", "sketchml3", "sketchml4"],
     tags: [TAGS.REACT, TAGS.NODEJS, TAGS.TENSORFLOW],
   },
   {
     title: "UStock - A simple inventory management system",
+    project: "ustock",
     description:
       "A basic mobile application that allows keeping track of the current number of available items in an inventory system. The features range from creating users, suppliers, categories and products which are identified by a unique barcode number that can be scanned.",
     github: "https://github.com/victorgzv/UStock",
-    image: "/projects/ustock.webp",
+    images: ["ustock1", "ustock2", "ustock3"],
     tags: [TAGS.JAVA, TAGS.ANDROID],
+  },
+  {
+    title: "Calidad Gourmet - An Ecommerce website",
+    project: "calidadgourmet",
+    description:
+      "I have collaborated with AMO Marketing on ecommerce projects like calidadgourmet.com, focusing on web development, design, content management, and SEO. Using WordPress, Shopify, and WooCommerce, we optimised site performance and mobile responsiveness. These efforts led to notable increases in web traffic, user engagement, and sales conversions.",
+    images: ["calidad-gourmet"],
+    link: "www.calidadgourmet.com",
   },
 ];
 ---
 
 <div class="flex flex-col gap-y-16">
   {
-    PROJECTS.map(({ image, title, description, tags, link, github }) => (
-      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
-          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
-            <img
-              alt="Recién llegado vs 5 años en Nueva Zelanda"
-              class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
-              loading="lazy"
-              src={image}
-            />
-          </div>
-        </div>
-
-        <div class="w-full md:w-1/2 md:max-w-lg">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
-            {title}
-          </h3>
-          <div class="flex flex-wrap mt-2">
-            <ul class="flex flex-row mb-2 gap-x-2">
-              {tags?.map((tag) => (
-                <li>
-                  <span
-                    class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
-                  >
-                    <tag.icon class="size-4" />
-                    {tag.name}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div class="mt-2 text-gray-700 dark:text-gray-400">
-              {description}
+    PROJECTS.map(
+      ({ project, images, title, description, tags, link, github }) => (
+        <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
+          <div class="w-full md:w-1/2">
+            <div class="relative flex flex-col items-center  transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl">
+              <Carousel images={images} project={project} />
             </div>
-            <footer class="flex items-end justify-start mt-4 gap-x-4">
-              {github && (
-                <LinkButton href={github}>
-                  <GitHub class="size-6" />
-                  Code
-                </LinkButton>
-              )}
-              {link && (
-                <LinkButton href={link}>
-                  <Link class="size-4" />
-                  Preview
-                </LinkButton>
-              )}
-            </footer>
           </div>
-        </div>
-      </article>
-    ))
+
+          <div class="w-full md:w-1/2 md:max-w-lg">
+            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              {title}
+            </h3>
+            <div class="flex flex-wrap mt-2">
+              <ul class="flex flex-row mb-2 gap-x-2">
+                {tags?.map((tag) => (
+                  <li>
+                    <span
+                      class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
+                    >
+                      <tag.icon class="size-4" />
+                      {tag.name}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-2 text-gray-700 dark:text-gray-400">
+                {description}
+              </div>
+              <footer class="flex items-end justify-start mt-4 gap-x-4">
+                {github && (
+                  <LinkButton href={github}>
+                    <GitHub class="size-6" />
+                    Code
+                  </LinkButton>
+                )}
+                {link && (
+                  <LinkButton href={link}>
+                    <Link class="size-4" />
+                    Preview
+                  </LinkButton>
+                )}
+              </footer>
+            </div>
+          </div>
+        </article>
+      )
+    )
   }
 </div>
