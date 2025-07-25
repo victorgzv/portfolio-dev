@@ -8,6 +8,7 @@ import {
   TextStyle 
 } from 'react-native';
 import { ButtonProps } from '../../types';
+import { useTheme } from './ThemeProvider';
 
 interface ExtendedButtonProps extends ButtonProps, Omit<TouchableOpacityProps, 'onPress'> {}
 
@@ -22,6 +23,8 @@ export const Button: React.FC<ExtendedButtonProps> = ({
   style,
   ...props
 }) => {
+  const { colors, isDark } = useTheme();
+
   const getButtonStyles = (): ViewStyle => {
     const baseStyles: ViewStyle = {
       borderRadius: 8,
@@ -37,20 +40,20 @@ export const Button: React.FC<ExtendedButtonProps> = ({
       lg: { paddingVertical: 16, paddingHorizontal: 24 },
     };
 
-    // Variant styles
+    // Variant styles using theme colors
     const variantStyles: Record<string, ViewStyle> = {
       primary: {
-        backgroundColor: disabled ? '#9CA3AF' : '#3B82F6',
+        backgroundColor: disabled ? colors.secondary : colors.primary,
       },
       secondary: {
-        backgroundColor: disabled ? '#F3F4F6' : '#F9FAFB',
+        backgroundColor: disabled ? colors.surface : colors.surface,
         borderWidth: 1,
-        borderColor: disabled ? '#D1D5DB' : '#D1D5DB',
+        borderColor: disabled ? colors.border : colors.border,
       },
       outline: {
         backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: disabled ? '#D1D5DB' : '#3B82F6',
+        borderColor: disabled ? colors.border : colors.primary,
       },
       ghost: {
         backgroundColor: 'transparent',
@@ -78,19 +81,19 @@ export const Button: React.FC<ExtendedButtonProps> = ({
       lg: { fontSize: 18 },
     };
 
-    // Variant styles
+    // Variant styles using theme colors
     const variantStyles: Record<string, TextStyle> = {
       primary: {
         color: disabled ? '#FFFFFF' : '#FFFFFF',
       },
       secondary: {
-        color: disabled ? '#9CA3AF' : '#374151',
+        color: disabled ? colors.textSecondary : colors.text,
       },
       outline: {
-        color: disabled ? '#9CA3AF' : '#3B82F6',
+        color: disabled ? colors.textSecondary : colors.primary,
       },
       ghost: {
-        color: disabled ? '#9CA3AF' : '#3B82F6',
+        color: disabled ? colors.textSecondary : colors.primary,
       },
     };
 
@@ -109,7 +112,7 @@ export const Button: React.FC<ExtendedButtonProps> = ({
       case 'outline':
       case 'ghost':
       default:
-        return '#3B82F6';
+        return colors.primary;
     }
   };
 

@@ -11,12 +11,15 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { useAuthStore } from '../store/authStore';
 import { usePaymentStore } from '../store/paymentStore';
+import { useTheme } from '../components/ui/ThemeProvider';
 import { Button } from '../components/ui/Button';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
   const { user } = useAuthStore();
   const { activeSubscription, checkSubscriptionStatus } = usePaymentStore();
+  const { colors, isDark } = useTheme();
 
   useEffect(() => {
     checkSubscriptionStatus();
@@ -56,14 +59,24 @@ const HomeScreen: React.FC = () => {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface }}>
       <ScrollView>
         {/* Welcome Section */}
         <View style={{
-          backgroundColor: '#3B82F6',
+          backgroundColor: colors.primary,
           paddingHorizontal: 24,
           paddingVertical: 32,
         }}>
+          {/* Theme Toggle in Header */}
+          <View style={{
+            position: 'absolute',
+            top: 16,
+            right: 24,
+            zIndex: 1,
+          }}>
+            <ThemeToggle size="sm" variant="button" />
+          </View>
+
           <Text style={{
             fontSize: 28,
             fontWeight: 'bold',
@@ -74,7 +87,7 @@ const HomeScreen: React.FC = () => {
           </Text>
           <Text style={{
             fontSize: 16,
-            color: '#E0E7FF',
+            color: isDark ? '#E0E7FF' : '#E0E7FF',
             marginBottom: 24,
           }}>
             You're using the React Native Expo Boilerplate
@@ -82,7 +95,7 @@ const HomeScreen: React.FC = () => {
 
           {activeSubscription ? (
             <View style={{
-              backgroundColor: '#10B981',
+              backgroundColor: colors.success,
               padding: 16,
               borderRadius: 8,
               flexDirection: 'row',
@@ -108,7 +121,7 @@ const HomeScreen: React.FC = () => {
           ) : (
             <TouchableOpacity
               style={{
-                backgroundColor: '#FFFFFF',
+                backgroundColor: colors.background,
                 padding: 16,
                 borderRadius: 8,
                 flexDirection: 'row',
@@ -116,23 +129,23 @@ const HomeScreen: React.FC = () => {
               }}
               onPress={() => navigation.navigate('payment' as never)}
             >
-              <Ionicons name="star" size={24} color="#F59E0B" />
+              <Ionicons name="star" size={24} color={colors.warning} />
               <View style={{ marginLeft: 12, flex: 1 }}>
                 <Text style={{
-                  color: '#1F2937',
+                  color: colors.text,
                   fontWeight: '600',
                   fontSize: 16,
                 }}>
                   Upgrade to Premium
                 </Text>
                 <Text style={{
-                  color: '#6B7280',
+                  color: colors.textSecondary,
                   fontSize: 14,
                 }}>
                   Unlock all features
                 </Text>
               </View>
-              <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+              <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
             </TouchableOpacity>
           )}
         </View>
@@ -142,7 +155,7 @@ const HomeScreen: React.FC = () => {
           <Text style={{
             fontSize: 24,
             fontWeight: 'bold',
-            color: '#1F2937',
+            color: colors.text,
             marginBottom: 16,
           }}>
             What's Included
@@ -163,30 +176,30 @@ const HomeScreen: React.FC = () => {
                 }}
               >
                 <View style={{
-                  backgroundColor: '#FFFFFF',
+                  backgroundColor: colors.card,
                   padding: 16,
                   borderRadius: 12,
                   borderWidth: 1,
-                  borderColor: '#E5E7EB',
+                  borderColor: colors.border,
                   height: 120,
                 }}>
                   <Ionicons 
                     name={feature.icon as any} 
                     size={24} 
-                    color="#3B82F6" 
+                    color={colors.primary} 
                     style={{ marginBottom: 8 }}
                   />
                   <Text style={{
                     fontSize: 14,
                     fontWeight: '600',
-                    color: '#1F2937',
+                    color: colors.text,
                     marginBottom: 4,
                   }}>
                     {feature.title}
                   </Text>
                   <Text style={{
                     fontSize: 12,
-                    color: '#6B7280',
+                    color: colors.textSecondary,
                     lineHeight: 16,
                   }}>
                     {feature.description}
@@ -197,12 +210,74 @@ const HomeScreen: React.FC = () => {
           </View>
         </View>
 
+        {/* Theme Demo Section */}
+        <View style={{ paddingHorizontal: 24, marginBottom: 16 }}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: colors.text,
+            marginBottom: 16,
+          }}>
+            Theme System
+          </Text>
+          
+          <View style={{
+            backgroundColor: colors.card,
+            padding: 20,
+            borderRadius: 12,
+            borderWidth: 1,
+            borderColor: colors.border,
+            marginBottom: 16,
+          }}>
+            <Text style={{
+              fontSize: 16,
+              fontWeight: '600',
+              color: colors.text,
+              marginBottom: 12,
+            }}>
+              🌙 Dark/Light Theme Support
+            </Text>
+            <Text style={{
+              fontSize: 14,
+              color: colors.textSecondary,
+              marginBottom: 16,
+              lineHeight: 20,
+            }}>
+              Switch between light, dark, and system themes. The app automatically adapts to your preference and system settings.
+            </Text>
+            
+            {/* Theme Toggle Variants */}
+            <View style={{ gap: 12 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 14, flex: 1 }}>
+                  Button Style:
+                </Text>
+                <ThemeToggle variant="button" showLabel />
+              </View>
+              
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 14, flex: 1 }}>
+                  Switch Style:
+                </Text>
+                <ThemeToggle variant="switch" />
+              </View>
+              
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 12 }}>
+                <Text style={{ color: colors.textSecondary, fontSize: 14, flex: 1 }}>
+                  Dropdown Style:
+                </Text>
+                <ThemeToggle variant="dropdown" />
+              </View>
+            </View>
+          </View>
+        </View>
+
         {/* Quick Actions */}
         <View style={{ paddingHorizontal: 24, paddingBottom: 32 }}>
           <Text style={{
             fontSize: 20,
             fontWeight: 'bold',
-            color: '#1F2937',
+            color: colors.text,
             marginBottom: 16,
           }}>
             Quick Actions

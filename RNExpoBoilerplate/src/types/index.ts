@@ -44,6 +44,34 @@ export interface PaymentState {
   availablePlans: SubscriptionPlan[];
 }
 
+// Theme Types
+export type ThemeMode = 'light' | 'dark' | 'system';
+
+export interface ThemeColors {
+  background: string;
+  surface: string;
+  primary: string;
+  primaryDark: string;
+  secondary: string;
+  text: string;
+  textSecondary: string;
+  border: string;
+  error: string;
+  success: string;
+  warning: string;
+  info: string;
+  overlay: string;
+  card: string;
+  notification: string;
+}
+
+export interface ThemeState {
+  mode: ThemeMode;
+  isDark: boolean;
+  colors: ThemeColors;
+  systemTheme: 'light' | 'dark' | null;
+}
+
 // Navigation Types
 export interface RootStackParamList {
   '(tabs)': undefined;
@@ -116,10 +144,7 @@ export interface RevenueCatPackage {
 export interface AppState {
   auth: AuthState;
   payment: PaymentState;
-  theme: {
-    isDark: boolean;
-    primaryColor: string;
-  };
+  theme: ThemeState;
   notifications: {
     enabled: boolean;
     pushToken?: string;

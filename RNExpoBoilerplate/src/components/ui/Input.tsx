@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { InputProps } from '../../types';
+import { useTheme } from './ThemeProvider';
 
 interface ExtendedInputProps extends InputProps, Omit<TextInputProps, 'value' | 'onChangeText'> {}
 
@@ -28,6 +29,7 @@ export const Input: React.FC<ExtendedInputProps> = ({
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const { colors, isDark } = useTheme();
 
   const getContainerStyles = (): ViewStyle => ({
     marginBottom: 16,
@@ -36,7 +38,7 @@ export const Input: React.FC<ExtendedInputProps> = ({
   const getLabelStyles = (): TextStyle => ({
     fontSize: 14,
     fontWeight: '600',
-    color: '#374151',
+    color: colors.text,
     marginBottom: 8,
   });
 
@@ -49,19 +51,19 @@ export const Input: React.FC<ExtendedInputProps> = ({
   const getInputStyles = (): ViewStyle => ({
     flex: 1,
     borderWidth: 1,
-    borderColor: error ? '#EF4444' : isFocused ? '#3B82F6' : '#D1D5DB',
-    backgroundColor: disabled ? '#F9FAFB' : '#FFFFFF',
+    borderColor: error ? colors.error : isFocused ? colors.primary : colors.border,
+    backgroundColor: disabled ? colors.surface : colors.background,
     borderRadius: 8,
     paddingVertical: 12,
     paddingHorizontal: 16,
     paddingRight: secureTextEntry ? 48 : 16,
     fontSize: 16,
-    color: disabled ? '#9CA3AF' : '#1F2937',
+    color: disabled ? colors.textSecondary : colors.text,
   });
 
   const getErrorStyles = (): TextStyle => ({
     fontSize: 12,
-    color: '#EF4444',
+    color: colors.error,
     marginTop: 4,
   });
 
@@ -87,7 +89,7 @@ export const Input: React.FC<ExtendedInputProps> = ({
         <TextInput
           style={[getInputStyles(), style]}
           placeholder={placeholder}
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor={colors.textSecondary}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={secureTextEntry && !isPasswordVisible}
@@ -110,7 +112,7 @@ export const Input: React.FC<ExtendedInputProps> = ({
             <Ionicons
               name={isPasswordVisible ? 'eye-off' : 'eye'}
               size={20}
-              color="#9CA3AF"
+              color={colors.textSecondary}
             />
           </TouchableOpacity>
         )}

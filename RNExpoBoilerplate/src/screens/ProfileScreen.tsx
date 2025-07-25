@@ -10,11 +10,14 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from '../store/authStore';
 import { usePaymentStore } from '../store/paymentStore';
+import { useTheme } from '../components/ui/ThemeProvider';
 import { Button } from '../components/ui/Button';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
 
 const ProfileScreen: React.FC = () => {
   const { user, logout, isLoading } = useAuthStore();
   const { activeSubscription } = usePaymentStore();
+  const { colors, isDark, mode } = useTheme();
 
   const handleLogout = () => {
     Alert.alert(
@@ -85,22 +88,35 @@ const ProfileScreen: React.FC = () => {
     },
   ];
 
+  const getThemeDisplayName = () => {
+    switch (mode) {
+      case 'light':
+        return 'Light Theme';
+      case 'dark':
+        return 'Dark Theme';
+      case 'system':
+        return `System (${isDark ? 'Dark' : 'Light'})`;
+      default:
+        return 'System';
+    }
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F9FAFB' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.surface }}>
       <ScrollView style={{ flex: 1 }}>
         {/* Profile Header */}
         <View style={{
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.card,
           padding: 24,
           alignItems: 'center',
           borderBottomWidth: 1,
-          borderBottomColor: '#E5E7EB',
+          borderBottomColor: colors.border,
         }}>
           <View style={{
             width: 80,
             height: 80,
             borderRadius: 40,
-            backgroundColor: '#3B82F6',
+            backgroundColor: colors.primary,
             justifyContent: 'center',
             alignItems: 'center',
             marginBottom: 16,
@@ -117,7 +133,7 @@ const ProfileScreen: React.FC = () => {
           <Text style={{
             fontSize: 20,
             fontWeight: 'bold',
-            color: '#1F2937',
+            color: colors.text,
             marginBottom: 4,
           }}>
             {user?.name || 'User'}
@@ -125,7 +141,7 @@ const ProfileScreen: React.FC = () => {
 
           <Text style={{
             fontSize: 14,
-            color: '#6B7280',
+            color: colors.textSecondary,
             marginBottom: 16,
           }}>
             {user?.email}
@@ -133,7 +149,7 @@ const ProfileScreen: React.FC = () => {
 
           {activeSubscription && (
             <View style={{
-              backgroundColor: '#10B981',
+              backgroundColor: colors.success,
               paddingHorizontal: 12,
               paddingVertical: 6,
               borderRadius: 16,
@@ -153,51 +169,127 @@ const ProfileScreen: React.FC = () => {
           )}
         </View>
 
-        {/* Profile Items */}
+        {/* Theme Settings Section */}
         <View style={{ padding: 24 }}>
-          {profileItems.map((item, index) => (
-            <TouchableOpacity
-              key={index}
-              style={{
-                backgroundColor: '#FFFFFF',
-                padding: 16,
-                borderRadius: 8,
-                marginBottom: 12,
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderWidth: 1,
-                borderColor: '#E5E7EB',
-              }}
-              onPress={item.onPress}
-              activeOpacity={0.7}
-            >
+          <Text style={{
+            fontSize: 18,
+            fontWeight: '600',
+            color: colors.text,
+            marginBottom: 16,
+          }}>
+            Appearance
+          </Text>
+
+          <View style={{
+            backgroundColor: colors.card,
+            padding: 16,
+            borderRadius: 8,
+            marginBottom: 24,
+            borderWidth: 1,
+            borderColor: colors.border,
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 16,
+            }}>
               <View style={{
-                backgroundColor: '#F3F4F6',
+                backgroundColor: colors.surface,
                 padding: 8,
                 borderRadius: 6,
                 marginRight: 12,
               }}>
-                <Ionicons name={item.icon as any} size={20} color="#6B7280" />
+                <Ionicons name="color-palette-outline" size={20} color={colors.textSecondary} />
               </View>
               
               <View style={{ flex: 1 }}>
                 <Text style={{
                   fontSize: 16,
                   fontWeight: '600',
-                  color: '#1F2937',
+                  color: colors.text,
+                  marginBottom: 2,
+                }}>
+                  Theme
+                </Text>
+                <Text style={{
+                  fontSize: 14,
+                  color: colors.textSecondary,
+                }}>
+                  {getThemeDisplayName()}
+                </Text>
+              </View>
+            </View>
+
+            {/* Theme Toggle Options */}
+            <View style={{ gap: 12 }}>
+              <Text style={{
+                fontSize: 14,
+                fontWeight: '500',
+                color: colors.text,
+                marginBottom: 8,
+              }}>
+                Choose your preferred theme:
+              </Text>
+              
+              <ThemeToggle variant="dropdown" />
+            </View>
+          </View>
+        </View>
+
+        {/* Profile Items */}
+        <View style={{ paddingHorizontal: 24 }}>
+          <Text style={{
+            fontSize: 18,
+            fontWeight: '600',
+            color: colors.text,
+            marginBottom: 16,
+          }}>
+            Settings
+          </Text>
+
+          {profileItems.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{
+                backgroundColor: colors.card,
+                padding: 16,
+                borderRadius: 8,
+                marginBottom: 12,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: colors.border,
+              }}
+              onPress={item.onPress}
+              activeOpacity={0.7}
+            >
+              <View style={{
+                backgroundColor: colors.surface,
+                padding: 8,
+                borderRadius: 6,
+                marginRight: 12,
+              }}>
+                <Ionicons name={item.icon as any} size={20} color={colors.textSecondary} />
+              </View>
+              
+              <View style={{ flex: 1 }}>
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: colors.text,
                   marginBottom: 2,
                 }}>
                   {item.title}
                 </Text>
                 <Text style={{
                   fontSize: 14,
-                  color: '#6B7280',
+                  color: colors.textSecondary,
                 }}>
                   {item.subtitle}
                 </Text>
               </View>
 
-              <Ionicons name="chevron-forward" size={20} color="#9CA3AF" />
+              <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
             </TouchableOpacity>
           ))}
         </View>
@@ -205,17 +297,17 @@ const ProfileScreen: React.FC = () => {
         {/* App Information */}
         <View style={{ padding: 24 }}>
           <View style={{
-            backgroundColor: '#FFFFFF',
+            backgroundColor: colors.card,
             padding: 20,
             borderRadius: 8,
             borderWidth: 1,
-            borderColor: '#E5E7EB',
+            borderColor: colors.border,
             marginBottom: 24,
           }}>
             <Text style={{
               fontSize: 16,
               fontWeight: '600',
-              color: '#1F2937',
+              color: colors.text,
               marginBottom: 12,
             }}>
               App Information
@@ -225,15 +317,15 @@ const ProfileScreen: React.FC = () => {
               justifyContent: 'space-between',
               marginBottom: 8,
             }}>
-              <Text style={{ color: '#6B7280' }}>Version</Text>
-              <Text style={{ color: '#1F2937', fontWeight: '500' }}>1.0.0</Text>
+              <Text style={{ color: colors.textSecondary }}>Version</Text>
+              <Text style={{ color: colors.text, fontWeight: '500' }}>1.0.0</Text>
             </View>
             <View style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
             }}>
-              <Text style={{ color: '#6B7280' }}>Build</Text>
-              <Text style={{ color: '#1F2937', fontWeight: '500' }}>2024.01.01</Text>
+              <Text style={{ color: colors.textSecondary }}>Build</Text>
+              <Text style={{ color: colors.text, fontWeight: '500' }}>2024.01.01</Text>
             </View>
           </View>
 

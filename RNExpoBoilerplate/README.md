@@ -28,7 +28,9 @@ A comprehensive, production-ready React Native boilerplate built with Expo, feat
 ### 🎨 UI/UX
 - **Modern, responsive design**
 - **TailwindCSS** with NativeWind
-- **Dark/Light theme** support
+- **🌙 Dark/Light theme** support with system detection
+- **Theme persistence** across app sessions
+- **Animated theme transitions**
 - **Reusable component library**
 - **Smooth animations** with Reanimated
 
@@ -172,6 +174,8 @@ src/
 │   ├── auth/            # Authentication components
 │   ├── payment/         # Payment components
 │   └── ui/              # Basic UI components
+│       ├── ThemeProvider.tsx    # Theme context provider
+│       └── ThemeToggle.tsx      # Theme toggle component
 ├── hooks/               # Custom React hooks
 ├── lib/                 # External service configurations
 │   ├── supabase.ts      # Supabase client
@@ -180,6 +184,9 @@ src/
 ├── navigation/          # Navigation configuration
 ├── screens/             # Screen components
 ├── store/               # Zustand stores
+│   ├── authStore.ts     # Authentication state
+│   ├── paymentStore.ts  # Payment state
+│   └── themeStore.ts    # Theme state management
 ├── types/               # TypeScript type definitions
 └── utils/               # Utility functions
 ```
@@ -229,6 +236,74 @@ const SubscriptionComponent = () => {
   );
 };
 ```
+
+### Theme System
+
+```typescript
+import { useTheme } from '../components/ui/ThemeProvider';
+import { ThemeToggle } from '../components/ui/ThemeToggle';
+
+const ThemedComponent = () => {
+  const { colors, isDark, setTheme, toggleTheme } = useTheme();
+
+  return (
+    <View style={{ backgroundColor: colors.background }}>
+      <Text style={{ color: colors.text }}>Hello World</Text>
+      
+      {/* Simple toggle button */}
+      <ThemeToggle />
+      
+      {/* Toggle with label */}
+      <ThemeToggle showLabel variant="button" />
+      
+      {/* Switch style toggle */}
+      <ThemeToggle variant="switch" />
+      
+      {/* Dropdown with all options */}
+      <ThemeToggle variant="dropdown" />
+      
+      {/* Manual theme control */}
+      <Button onPress={() => setTheme('dark')} title="Dark Mode" />
+      <Button onPress={() => setTheme('light')} title="Light Mode" />
+      <Button onPress={() => setTheme('system')} title="System" />
+    </View>
+  );
+};
+```
+
+### Theme Colors Available
+
+```typescript
+// Access all theme colors
+const { colors } = useTheme();
+
+// Available colors:
+colors.background      // Main background
+colors.surface         // Secondary background
+colors.card           // Card background
+colors.primary        // Primary brand color
+colors.primaryDark    // Darker primary variant
+colors.secondary      // Secondary text/elements
+colors.text           // Primary text color
+colors.textSecondary  // Secondary text color
+colors.border         // Border color
+colors.error          // Error/danger color
+colors.success        // Success color
+colors.warning        // Warning color
+colors.info           // Info color
+colors.overlay        // Modal overlay
+colors.notification   // Notification color
+```
+
+## 🌙 Theme Features
+
+- **🎨 Three theme modes**: Light, Dark, and System
+- **📱 System detection**: Automatically follows device theme
+- **💾 Persistence**: Remembers user preference across sessions
+- **🔄 Live switching**: Instant theme changes without restart
+- **🎛️ Multiple UI variants**: Button, switch, and dropdown toggles
+- **🎨 Comprehensive color system**: 15+ semantic colors
+- **⚡ Optimized performance**: Minimal re-renders with Zustand
 
 ## 🚀 Deployment
 
@@ -286,6 +361,7 @@ npm run type-check
 2. **iOS build issues**: Make sure Xcode is updated
 3. **Android build issues**: Check Android SDK configuration
 4. **Dependency conflicts**: Try `npm install --legacy-peer-deps`
+5. **Theme not persisting**: Ensure AsyncStorage permissions are set
 
 ### Getting Help
 
@@ -313,6 +389,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Stripe](https://stripe.com/) for payment processing
 - [RevenueCat](https://revenuecat.com/) for subscription management
 - [TailwindCSS](https://tailwindcss.com/) and [NativeWind](https://nativewind.dev/) for styling
+- [Zustand](https://zustand.surge.sh/) for state management
 
 ---
 

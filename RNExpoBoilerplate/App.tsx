@@ -17,6 +17,7 @@ import { useAuthStore } from './src/store/authStore';
 
 // Import components
 import AppNavigator from './src/navigation/AppNavigator';
+import { ThemeProvider } from './src/components/ui/ThemeProvider';
 
 // Create QueryClient for React Query
 const queryClient = new QueryClient({
@@ -73,16 +74,18 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <StripeProvider
-          publishableKey={stripeConfig.publishableKey}
-          merchantIdentifier={stripeConfig.merchantIdentifier}
-          urlScheme={stripeConfig.urlScheme}
-        >
-          <AppNavigator />
-          <StatusBar style="auto" />
-        </StripeProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <StripeProvider
+            publishableKey={stripeConfig.publishableKey}
+            merchantIdentifier={stripeConfig.merchantIdentifier}
+            urlScheme={stripeConfig.urlScheme}
+          >
+            <AppNavigator />
+            <StatusBar style="auto" />
+          </StripeProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
